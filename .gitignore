@@ -1,0 +1,25 @@
+node_modules/
+.env
+uploads/
+blockchain/artifacts/
+blockchain/cache/
+*.log
+.DS_Store
+
+# IDEs and editors
+.vs/
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environments
+venv/
+.venv/
+gops/
+env/
+dist/
+build/

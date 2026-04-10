@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITAL CHAIN</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="login-page">
+    <div class="background-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="glass-card">
+            <div class="logo">
+                <h1>VITAL CHAIN<span></span></h1>
+            </div>
+
+            <p class="subtitle">Please choose your role and authenticate</p>
+
+            <div class="role-selector">
+                <button id="patientTab" class="role-tab active" onclick="switchRole('patient')">Patient</button>
+                <button id="doctorTab" class="role-tab" onclick="switchRole('doctor')">Doctor</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form visible">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-text">Secure Login</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+                <p class="auth-toggle">Don't have an account? <a href="#" onclick="toggleAuth('register')">Register</a>
+                </p>
+            </form>
+
+            <!-- Registration Form (Hidden) -->
+            <form id="registerForm" class="auth-form hidden">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="regUsername">Username</label>
+                        <input type="text" id="regUsername" placeholder="johndoe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regFullName">Full Name</label>
+                        <input type="text" id="regFullName" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email Address</label>
+                        <input type="email" id="regEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Patient Specific Fields -->
+                <div id="patientRegFields" class="form-grid visible">
+                    <div class="form-group">
+                        <label for="regDob">Date of Birth</label>
+                        <input type="date" id="regDob">
+                    </div>
+                    <div class="form-group">
+                        <label for="regGender">Gender</label>
+                        <select id="regGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone">Phone Number</label>
+                        <input type="tel" id="regPhone" placeholder="+1 234 567 890">
+                    </div>
+                    <div class="form-group">
+                        <label for="regBloodGroup">Blood Group</label>
+                        <select id="regBloodGroup">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="regTreatingDoctor">Primary Treating Doctor (Optional)</label>
+                        <select id="regTreatingDoctor">
+                            <option value="">Select a Doctor</option>
+                            <!-- To be populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- Doctor Specific Fields -->
+                <div id="doctorRegFields" class="form-grid hidden">
+                    <div class="form-group">
+                        <label for="regSpecialization">Specialization</label>
+                        <input type="text" id="regSpecialization" placeholder="e.g. Cardiology">
+                    </div>
+                    <div class="form-group">
+                        <label for="regLicense">License Number</label>
+                        <input type="text" id="regLicense" placeholder="LIC-123456">
+                    </div>
+                    <div class="form-group">
+                        <label for="regHospital">Hospital Affiliation</label>
+                        <input type="text" id="regHospital" placeholder="City General Hospital">
+                    </div>
+                    <div class="form-group">
+                        <label for="regExperience">Years of Experience</label>
+                        <input type="number" id="regExperience" placeholder="5">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="regAddress">Home/Office Address</label>
+                    <input type="text" id="regAddress" placeholder="123 Health St, Medical City">
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-text">Create Secure Account</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+                <p class="auth-toggle">Already have an account? <a href="#" onclick="toggleAuth('login')">Login</a></p>
+            </form>
+
+            <!-- OTP Verification Screen (Hidden) -->
+            <div id="otpScreen" class="auth-form hidden">
+                <div class="otp-header">
+                    <div class="otp-icon-wrapper">
+                        <i class="ph ph-shield-check"></i>
+                    </div>
+                    <h3>Identity Verification</h3>
+                    <p>We've sent a 6-digit secure code to your email. Please enter it below to verify your session.</p>
+                </div>
+                <div class="form-group">
+                    <div class="otp-input-container">
+                        <input type="text" id="otpCode" maxlength="6" placeholder="· · · · · ·" class="otp-input-large">
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" onclick="verifyOTP()" id="verifyBtn">
+                    <span class="btn-text">Verify & Continue</span>
+                    <span class="btn-glow"></span>
+                </button>
+                <p class="auth-toggle">Didn't receive code? <a href="#" onclick="resendOTP()">Resend OTP</a></p>
+                <p class="auth-toggle"><a href="#" onclick="toggleAuth('login')">Back to Login</a></p>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Need Help?</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

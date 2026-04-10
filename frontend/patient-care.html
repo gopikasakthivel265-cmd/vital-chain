@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Care | VITAL CHAIN</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="logo">
+            <h1>VITAL <span>CHAIN</span></h1>
+        </div>
+        <button onclick="history.back()" class="btn-icon">
+            <i class="ph ph-arrow-left"></i>
+        </button>
+        <h2>Care Instructions</h2>
+        <div class="user-profile">
+            <div class="avatar">P</div>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <section class="care-section">
+            <div class="glass-card care-card">
+                <i class="ph ph-heartbeat"></i>
+                <h3>Personalized Health Tips</h3>
+                <p id="careInstructions">No records found. Upload your medical history to receive personalized care
+                    instructions.</p>
+            </div>
+
+            <div class="care-grid">
+                <div class="record-card">
+                    <i class="ph ph-pill"></i>
+                    <h4>Medication</h4>
+                    <p>Keep track of your dosages and timings.</p>
+                </div>
+                <div class="record-card">
+                    <i class="ph ph-activity"></i>
+                    <h4>Exercise</h4>
+                    <p>Light walking for 30 minutes daily is recommended.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'patient') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Simulate instructions based on a case
+            const cases = {
+                'Heart': 'Maintain a low-sodium diet and monitor your heart rate.',
+                'Diabetic': 'Check your blood sugar twice daily and stay hydrated.',
+                'General': 'Stay active and ensure you get 8 hours of sleep.'
+            };
+
+            // For demo purposes, we'll pick 'Heart' if no records exist
+            const instruction = cases['Heart'];
+            document.getElementById('careInstructions').textContent = instruction;
+        });
+    </script>
+</body>
+
+</html>

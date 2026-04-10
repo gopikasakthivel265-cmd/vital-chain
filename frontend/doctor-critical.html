@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Records | VITAL CHAIN</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="logo">
+            <h1>VITAL <span>CHAIN</span></h1>
+        </div>
+        <button onclick="history.back()" class="btn-icon">
+            <i class="ph ph-arrow-left"></i>
+        </button>
+        <h2>Critical Patients</h2>
+        <div class="user-profile">
+            <div class="avatar">D</div>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <div id="criticalList" class="records-grid">
+            <div class="empty-state">
+                <i class="ph ph-shield-check"></i>
+                <p>No critical patients at the moment.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/critical.js"></script>
+
+</body>
+
+</html>

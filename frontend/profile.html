@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | VITAL CHAIN</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="logo">
+            <h1>VITAL <span>CHAIN</span></h1>
+        </div>
+        <button onclick="history.back()" class="btn-icon">
+            <i class="ph ph-arrow-left"></i>
+        </button>
+        <h2>My Profile</h2>
+        <div></div>
+    </header>
+
+    <main class="dashboard-content">
+        <div class="glass-card profile-card">
+            <div class="avatar-large">?</div>
+            <h3 id="profileName">Loading...</h3>
+            <p id="profileSub" class="text-dim"></p>
+
+            <div class="profile-details">
+                <div class="detail-item">
+                    <span>Registration Number</span>
+                    <span id="regNumber">Loading...</span>
+                </div>
+                <div id="doctorSection" class="detail-item hidden">
+                    <span>Treating Doctor</span>
+                    <span id="treatingDoctor">Loading...</span>
+                </div>
+                <div class="detail-item">
+                    <span>Wallet Address</span>
+                    <span id="walletValue" style="font-family: monospace; font-size: 0.8rem;">Loading...</span>
+                </div>
+            </div>
+
+            <div class="profile-details" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <div class="detail-item" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                    <span>Update Wallet</span>
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <input type="text" id="walletAddress" placeholder="0x..."
+                            style="font-family: monospace; font-size: 0.8rem; padding: 10px;">
+                        <button class="btn-primary" style="width: auto; padding: 8px 15px; font-size: 0.8rem;"
+                            onclick="updateWallet()">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-secondary" style="margin-top: 1.5rem; color: #ef4444; width: 100%;"
+                onclick="logout()">Logout</button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = localStorage.getItem('token');
+            if (!user || !token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const data = result.data;
+                    document.getElementById('profileName').textContent = data.name;
+                    document.getElementById('profileSub').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+                    document.getElementById('regNumber').textContent = data.registrationNumber;
+                    document.getElementById('walletValue').textContent = user.walletAddress || 'Not linked';
+                    document.getElementById('walletAddress').value = user.walletAddress || '';
+                    document.querySelector('.avatar-large').textContent = data.name.charAt(0).toUpperCase();
+
+                    if (user.role === 'patient') {
+                        document.getElementById('doctorSection').classList.remove('hidden');
+                        document.getElementById('treatingDoctor').textContent = data.treatingDoctor;
+                    }
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                // Fallback to localstorage data if fetch fails
+                document.getElementById('profileName').textContent = user.name || 'User';
+                document.getElementById('profileSub').textContent = user.role;
+                document.getElementById('regNumber').textContent = user.patientId || user.doctorId || 'N/A';
+            }
+        });
+
+        async function updateWallet() {
+            const walletAddress = document.getElementById('walletAddress').value.trim();
+            if (!walletAddress || !walletAddress.startsWith('0x')) {
+                alert('Please enter a valid Ethereum wallet address');
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/update-wallet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ walletAddress })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Wallet updated!');
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    user.walletAddress = walletAddress;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    document.getElementById('walletValue').textContent = walletAddress;
+                }
+            } catch (error) {
+                alert('Connection error');
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

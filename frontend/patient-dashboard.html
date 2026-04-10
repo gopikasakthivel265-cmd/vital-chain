@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard | VITAL CHAIN</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="logo">
+            <h1>VITAL <span>CHAIN</span></h1>
+        </div>
+        <div class="user-profile">
+            <span id="userName">Patient #P12345</span>
+            <div class="avatar">P</div>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <div id="walletWarning" class="glass-card hidden"
+            style="margin-bottom: 30px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.05);">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <i class="ph ph-warning-circle" style="font-size: 2rem; color: #ef4444;"></i>
+                <div style="flex: 1;">
+                    <h3 style="color: #ef4444; margin-bottom: 5px;">Blockchain Wallet Missing</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">You won't receive access requests from doctors
+                        until you link your wallet in <a href="profile.html"
+                            style="color: var(--accent); text-decoration: underline;">Profile Settings</a>.</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="doctors-section glass-card" style="margin-bottom: 30px; padding: 20px;">
+            <div class="section-header">
+                <h2>My Treating Doctors</h2>
+            </div>
+            <div id="doctorsList" class="doctors-horizontal-list"
+                style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
+                <!-- Doctors populated by JS -->
+                <p style="color: var(--text-muted);">No assigned doctors yet.</p>
+            </div>
+        </section>
+
+        <section class="requests-section glass-card"
+            style="margin-bottom: 30px; padding: 20px; border-left: 4px solid var(--accent);">
+            <div class="section-header">
+                <h2>Pending Access Requests</h2>
+                <button onclick="loadDashboard()" class="btn-icon" title="Refresh Requests">
+                    <i class="ph ph-arrows-clockwise"></i>
+                </button>
+            </div>
+            <div id="requestsList" class="requests-list"
+                style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                <!-- Requests populated by JS -->
+                <p style="color: var(--text-muted);">No pending access requests.</p>
+            </div>
+        </section>
+
+        <section class="records-section">
+            <div class="section-header">
+                <h2>Medical Records</h2>
+                <button class="btn-upload" onclick="openUploadModal()">
+                    <span class="icon">+</span> Upload New
+                </button>
+            </div>
+
+            <div id="recordsList" class="records-grid">
+                <!-- Records will be populated by JS -->
+                <div class="empty-state">
+                    <i class="ph ph-folder-open"></i>
+                    <p>No medical records found. Upload your first record to start.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="patient-dashboard.html" class="nav-item active">
+            <i class="ph ph-house"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <i class="ph ph-files"></i>
+            <span class="nav-label">Docs</span>
+        </a>
+        <a href="patient-care.html" class="nav-item">
+            <i class="ph ph-heartbeat"></i>
+            <span class="nav-label">Care</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="ph ph-user"></i>
+            <span class="nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal hidden">
+        <div class="modal-content glass-card">
+            <h3>Upload Medical Record</h3>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label>Case Name</label>
+                    <input type="text" id="caseName" placeholder="e.g. Annual Report" required>
+                </div>
+                <div class="form-group">
+                    <label>Select File</label>
+                    <input type="file" id="recordFile" required>
+                </div>
+                <div class="form-group">
+                    <label>Treating Doctor</label>
+                    <select id="uploadDoctor" class="glass-input"
+                        style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                        <option value="">Select Doctor (if applicable)</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeUploadModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Upload to Cloud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/patient.js"></script>
+</body>
+
+</html>
